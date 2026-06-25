@@ -1,0 +1,759 @@
+:root {
+  --bg-gradient: radial-gradient(
+    circle at 50% 30%,
+    #1a100f 0%,
+    #0a0606 70%,
+    #000000 100%
+  );
+  --accent-1: #ff7e5f;
+  --accent-2: #feb47b;
+  --accent-glow: rgba(255, 126, 95, 0.35);
+  --bot-eye-color: #feb47b;
+}
+
+/* 1. Сброс стилей и системные хаки плавности */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
+  -webkit-tap-highlight-color: transparent;
+}
+html,
+body {
+  overscroll-behavior: none;
+  background: #000;
+}
+body {
+  background: var(--bg-gradient);
+  color: #f8fafc;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  overflow-x: hidden;
+  position: relative;
+  transition: background 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+/* 2. Золотой Boss-Mode (Эффект сияния для Зяблика) */
+.boss-mode {
+  background: linear-gradient(
+    90deg,
+    #ffe066,
+    #f59e0b,
+    #fff3c4,
+    #f59e0b
+  ) !important;
+  background-size: 200% auto !important;
+  -webkit-background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+  animation: shineText 2.5s linear infinite !important;
+  filter: drop-shadow(0 0 12px rgba(245, 158, 11, 0.6));
+  transform: scale(1.04);
+}
+@keyframes shineText {
+  to {
+    background-position: 200% center;
+  }
+}
+
+/* 3. Радужный Режим Сверхразума Шефа */
+.rainbow-mode {
+  background: linear-gradient(
+    45deg,
+    #ff007f,
+    #ff00ff,
+    #00ffff,
+    #00ff00,
+    #ffff00,
+    #ff7f00,
+    #ff007f
+  ) !important;
+  background-size: 300% 300% !important;
+  animation: rainbowShift 2s linear infinite !important;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.7) !important;
+  transform: scale(1.02);
+}
+@keyframes rainbowShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* 4. Оптимизированный интерактивный бэкграунд */
+.bg-glow {
+  position: absolute;
+  width: 320px;
+  height: 320px;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  filter: blur(140px);
+  opacity: 0.2;
+  border-radius: 50%;
+  z-index: 0;
+  pointer-events: none;
+  transition: all 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  will-change: transform, opacity;
+}
+.sphere-1 {
+  top: 5%;
+  left: 10%;
+  animation: float1 18s ease-in-out infinite alternate;
+}
+.sphere-2 {
+  bottom: 5%;
+  right: 10%;
+  animation: float2 22s ease-in-out infinite alternate;
+}
+.sphere-3 {
+  top: 40%;
+  left: 50%;
+  width: 200px;
+  height: 200px;
+  opacity: 0.08;
+  transform: translate(-50%, -50%);
+}
+@keyframes float1 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(-40px, -20px) scale(1.2);
+  }
+}
+@keyframes float2 {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  100% {
+    transform: translate(40px, -50px) scale(1.1);
+  }
+}
+
+/* 5. Контейнер частиц */
+#particleCanvasContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 150;
+}
+.visual-particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: explode 0.9s cubic-bezier(0.1, 0.8, 0.2, 1) forwards;
+}
+@keyframes explode {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--mx), var(--my)) translateY(40px) scale(0);
+    opacity: 0;
+  }
+}
+
+/* 6. Карточка формы (Glassmorphism премиум-уровня) */
+.container {
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  z-index: 1;
+  perspective: 1200px;
+}
+.form-card {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 30px;
+  padding: 22px;
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.7),
+    inset 0 1px 2px rgba(255, 255, 255, 0.12);
+  transition:
+    transform 0.2s cubic-bezier(0.2, 0.8, 0.3, 1),
+    box-shadow 0.4s,
+    border-color 0.4s;
+  will-change: transform;
+}
+@media (min-width: 480px) {
+  .form-card {
+    padding: 35px;
+  }
+}
+
+/* Динамические эффекты яростного набора текста */
+.rage-speed-1 {
+  border-color: rgba(255, 255, 255, 0.25);
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.7),
+    0 0 20px var(--accent-glow);
+}
+.rage-speed-2 {
+  animation: ragePulse 0.2s infinite alternate;
+  border-color: var(--accent-1);
+  box-shadow:
+    0 40px 80px rgba(0, 0, 0, 0.7),
+    0 0 35px var(--accent-glow);
+}
+@keyframes ragePulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.006);
+  }
+}
+
+/* Ошибка вав-эффекта формы */
+.shake-error {
+  animation: shakeErr 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  border-color: #f43f5e !important;
+  box-shadow: 0 0 25px rgba(244, 63, 94, 0.35) !important;
+}
+@keyframes shakeErr {
+  10%,
+  90% {
+    transform: translate3d(-2px, 0, 0);
+  }
+  20%,
+  80% {
+    transform: translate3d(4px, 0, 0);
+  }
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-6px, 0, 0);
+  }
+  40%,
+  60% {
+    transform: translate3d(6px, 0, 0);
+  }
+}
+
+/* 7. Текстовые элементы */
+h2 {
+  font-size: 25px;
+  margin-bottom: 6px;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.subtitle {
+  font-size: 13px;
+  color: #94a3b8;
+  margin-bottom: 24px;
+  line-height: 1.5;
+}
+.admin-note {
+  color: rgba(148, 163, 184, 0.6);
+  font-style: italic;
+  font-size: 11px;
+}
+
+/* 8. Переключатель тем */
+.theme-section {
+  margin-bottom: 22px;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 12px 16px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.section-label {
+  font-size: 12px;
+  color: #64748b;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+.theme-picker {
+  display: flex;
+  gap: 12px;
+}
+.theme-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.theme-dot.active {
+  border-color: #fff;
+  box-shadow: 0 0 14px #fff;
+  transform: scale(1.25);
+}
+
+/* 9. Категории */
+.category-section {
+  margin-bottom: 24px;
+}
+.category-group {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+@media (min-width: 380px) {
+  .category-group {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.category-btn {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  padding: 13px;
+  color: #cbd5e1;
+  font-size: 13.5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  transition: all 0.25s ease;
+}
+.category-btn .btn-icon {
+  display: inline-block;
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.category-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+.category-btn:hover .btn-icon {
+  transform: scale(1.25) rotate(8deg);
+}
+.category-btn.active {
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  border-color: transparent;
+  color: #fff;
+  box-shadow: 0 8px 25px var(--accent-glow);
+}
+
+/* 10. Поля ввода */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.input-wrapper input {
+  padding-right: 52px;
+}
+
+#randomNickBtn {
+  position: absolute;
+  right: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 17px;
+  transition:
+    transform 0.25s cubic-bezier(0.2, 0.8, 0.2, 1),
+    background 0.2s,
+    border-color 0.2s;
+}
+#randomNickBtn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+#randomNickBtn.rolling {
+  animation: rollDice 0.45s cubic-bezier(0.3, 0, 0.2, 1) infinite;
+  pointer-events: none;
+}
+@keyframes rollDice {
+  0% {
+    transform: rotate(0deg) scale(1.15);
+  }
+  100% {
+    transform: rotate(360deg) scale(1.15);
+  }
+}
+
+.input-group {
+  margin-bottom: 22px;
+}
+label {
+  display: block;
+  font-size: 12.5px;
+  color: #94a3b8;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+input,
+textarea {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 15px;
+  padding: 15px;
+  color: #fff;
+  font-size: 15px;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: relative;
+  z-index: 5;
+}
+input:focus,
+textarea:focus {
+  border-color: var(--accent-1);
+  box-shadow: inset 0 0 10px var(--accent-glow);
+  background: rgba(0, 0, 0, 0.5);
+}
+textarea {
+  resize: none;
+}
+
+/* 11. УМНЫЙ РОБОТ-КИБЕРШПИОН (ВЫПОЛЗАЕТ СТРОГО ПРИ СКОРОСТНОМ ВВОДЕ) */
+.spy-bot {
+  position: absolute;
+  bottom: 42px;
+  right: 20px;
+  width: 34px;
+  height: 26px;
+  z-index: 2;
+  transform: translateY(12px) scale(0);
+  opacity: 0;
+  transition:
+    transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 0.3s,
+    bottom 0.3s;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/* Положение шпиона над текстовым полем */
+.spy-bot.visible {
+  transform: translateY(-138px) scale(1);
+  opacity: 1;
+}
+.spy-bot.focus-active {
+  bottom: 46px;
+} /* Слегка приподнимается, если юзер просто нажал на поле */
+.spy-bot.jump-attack {
+  animation: botJumpAttack 0.65s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  z-index: 12;
+}
+
+.bot-antenna {
+  width: 2px;
+  height: 5px;
+  background: var(--accent-1);
+  position: relative;
+}
+.bot-antenna::before {
+  content: "";
+  position: absolute;
+  top: -3px;
+  left: -2px;
+  width: 6px;
+  height: 6px;
+  background: var(--accent-2);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--accent-2);
+}
+.bot-head {
+  width: 100%;
+  height: 20px;
+  background: #0f0b18;
+  border: 1.5px solid var(--accent-1);
+  border-radius: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  box-shadow: 0 0 15px var(--accent-glow);
+  transition: background 0.3s;
+}
+.bot-eye {
+  width: 8px;
+  height: 8px;
+  background: #050308;
+  border: 1px solid var(--bot-eye-color);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.bot-eye .pupil {
+  width: 3.5px;
+  height: 3.5px;
+  background: var(--bot-eye-color);
+  border-radius: 50%;
+  box-shadow: 0 0 6px var(--bot-eye-color);
+}
+
+/* Робот следит глазами, анимация запускается скриптом при высокой скорости */
+.spy-bot.reading .pupil {
+  animation: readMovement 0.6s infinite ease-in-out alternate;
+}
+@keyframes readMovement {
+  from {
+    transform: translateX(-2px);
+  }
+  to {
+    transform: translateX(2px);
+  }
+}
+
+.bot-mouth {
+  width: 10px;
+  height: 1.5px;
+  background: var(--accent-1);
+  position: absolute;
+  bottom: 4px;
+  border-radius: 1px;
+  opacity: 0.7;
+}
+
+@keyframes botJumpAttack {
+  0% {
+    transform: translateY(-138px) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  35% {
+    transform: translateY(-180px) scale(1.4) rotate(-25deg);
+    filter: hue-rotate(140deg);
+  }
+  65% {
+    transform: translateY(0px) scale(1.1) rotate(180deg);
+    opacity: 0.9;
+  }
+  100% {
+    transform: translateY(80px) scale(0) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* 12. Встроенный прогресс-бар длины сообщения */
+.progress-bar-container {
+  position: absolute;
+  bottom: 33px;
+  left: 1px;
+  width: calc(100% - 2px);
+  height: 3px;
+  background: rgba(255, 255, 255, 0.03);
+  z-index: 6;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent-1), var(--accent-2));
+  transition: width 0.1s linear;
+}
+
+/* Кастомный неоновый скроллбар */
+textarea::-webkit-scrollbar {
+  width: 5px;
+}
+textarea::-webkit-scrollbar-track {
+  background: transparent;
+}
+textarea::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+}
+textarea:focus::-webkit-scrollbar-thumb {
+  background: var(--accent-1);
+}
+
+.char-counter {
+  font-size: 11px;
+  color: #4b5563;
+  text-align: right;
+  margin-top: 6px;
+  font-weight: 700;
+  transition: color 0.3s;
+  position: relative;
+  z-index: 6;
+}
+
+/* 13. Главная кнопка */
+button[type="submit"] {
+  width: 100%;
+  background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+  border: none;
+  border-radius: 15px;
+  padding: 16px;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 5px 22px var(--accent-glow);
+  position: relative;
+  overflow: hidden;
+  z-index: 6;
+}
+button[type="submit"]:hover {
+  filter: brightness(1.08);
+  box-shadow: 0 8px 28px var(--accent-glow);
+}
+.category-btn:active,
+button[type="submit"]:active,
+.theme-dot:active,
+#randomNickBtn:active {
+  transform: scale(0.96) !important;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+  margin-left: 10px;
+}
+.hidden {
+  display: none !important;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 14. Модальное окно премиум-качества */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(2, 1, 4, 0.94);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  padding: 16px;
+  transition: all 0.4s;
+}
+.modal-content {
+  background: rgba(18, 14, 28, 0.7);
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 32px 24px;
+  border-radius: 30px;
+  text-align: center;
+  max-width: 390px;
+  width: 100%;
+  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.9);
+  animation: modalScale 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+@keyframes modalScale {
+  from {
+    transform: scale(0.85) translateY(10px);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+  }
+}
+
+.success-icon {
+  font-size: 38px;
+  margin-bottom: 8px;
+  animation: bounce 1.2s infinite alternate cubic-bezier(0.45, 0.05, 0.55, 0.95);
+}
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-6px);
+  }
+}
+.modal-content h3 {
+  font-size: 21px;
+  margin-bottom: 8px;
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+.modal-content p {
+  color: #94a3b8;
+  font-size: 13.5px;
+  margin-bottom: 20px;
+  line-height: 1.45;
+}
+
+.meme-container {
+  width: 100%;
+  height: 210px;
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: #000;
+}
+.meme-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.modal-content button {
+  background: transparent;
+  border: 1.5px solid var(--accent-1);
+  padding: 12px 30px;
+  color: var(--accent-1);
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  transition: all 0.25s;
+}
+.modal-content button:hover {
+  background: var(--accent-1);
+  color: #fff;
+  box-shadow: 0 0 18px var(--accent-glow);
+}
