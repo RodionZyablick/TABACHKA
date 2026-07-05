@@ -13,7 +13,6 @@
     <div class="bg-glow sphere-1"></div>
     <div class="bg-glow sphere-2"></div>
     <div class="bg-glow sphere-3"></div>
-
     <div id="particleCanvasContainer"></div>
 
     <div class="container">
@@ -21,128 +20,94 @@
         <div class="header-zone">
           <h2 id="mainTitle">🔮 Табачка-Фидбек</h2>
           <p class="subtitle">
-            Полная анонимность гарантирована.
-            <span class="admin-note">(наёбываёт сам admin)</span>
+            Ваша анонимность под надежной защитой.
+            <span class="admin-note">(администрация проекта)</span>
           </p>
         </div>
 
-        <div class="theme-section">
-          <label class="section-label">Атмосфера пространства:</label>
-          <div class="theme-picker">
-            <button
-              type="button"
-              class="theme-dot"
-              data-theme="neon"
-              style="background: linear-gradient(135deg, #a855f7, #f43f5e)"
-              title="Кибер Неон"
-            ></button>
-            <button
-              type="button"
-              class="theme-dot active"
-              data-theme="amber"
-              style="background: linear-gradient(135deg, #ff7e5f, #feb47b)"
-              title="Закат"
-            ></button>
-            <button
-              type="button"
-              class="theme-dot"
-              data-theme="emerald"
-              style="background: linear-gradient(135deg, #059669, #34d399)"
-              title="Матрица"
-            ></button>
-            <button
-              type="button"
-              class="theme-dot"
-              data-theme="ocean"
-              style="background: linear-gradient(135deg, #1e40af, #38bdf8)"
-              title="Глубокий Океан"
-            ></button>
-          </div>
-        </div>
-
         <div class="category-section">
-          <label class="section-label">Категория обращения:</label>
           <div class="category-group">
             <button
               type="button"
               class="category-btn active"
-              data-category="💬 Критика и придирки"
+              data-category="💬 Свободное общение"
             >
-              <span class="btn-icon">💬</span> Чатик, вайбово
+              <span class="btn-icon">💬</span> Чатик
             </button>
             <button
               type="button"
               class="category-btn"
-              data-category="💡 Гениальная мысль"
+              data-category="✨ Пожелания и идеи"
             >
-              <span class="btn-icon">💡</span> Инсайт (0.067%)
+              <span class="btn-icon">✨</span> Пожелания
             </button>
             <button
               type="button"
               class="category-btn"
-              data-category="☕️ Поболтать за жизнь"
+              data-category="🤝 Предложение о встрече"
             >
-              <span class="btn-icon">☕️</span> хочется что-нибудь
+              <span class="btn-icon">🤝</span> Встречи
             </button>
             <button
               type="button"
               class="category-btn"
-              data-category="🐈 Поток чистой шизы"
+              data-category="💌 Анонимное послание"
             >
-              <span class="btn-icon">🐈</span> Кот (он милый)
+              <span class="btn-icon">💌</span> Тайное письмо
             </button>
           </div>
         </div>
 
         <form id="complaintForm" novalidate>
           <div class="input-group">
-            <label for="username">Ник, можно рандомный (Необязательно)</label>
-            <div class="input-wrapper" id="diceWrapper">
-              <input
-                type="text"
-                id="username"
-                placeholder="Имя, ник или секретный код..."
-                autocomplete="off"
-                maxlength="40"
-              />
-              <button type="button" id="randomNickBtn" title="Бросить кубик">
-                🎲
-              </button>
-            </div>
+            <label for="username">Ваш ник</label>
+            <input
+              type="text"
+              id="username"
+              placeholder="Представьтесь"
+              maxlength="40"
+            />
           </div>
 
-          <div class="input-group" style="position: relative">
+          <div class="input-group" id="recipientGroup" style="display: none">
+            <label for="recipientUser">Кому отправить:</label>
+            <input type="text" id="recipientUser" placeholder="@username" />
+          </div>
+
+          <div class="input-group">
             <label for="complaintText">Текст сообщения *</label>
-
-            <div class="spy-bot" id="spyBot">
-              <div class="bot-antenna"></div>
-              <div class="bot-head">
-                <div class="bot-eye left-eye"><div class="pupil"></div></div>
-                <div class="bot-eye right-eye"><div class="pupil"></div></div>
-              </div>
-              <div class="bot-mouth"></div>
-            </div>
-
             <textarea
               id="complaintText"
               required
-              placeholder="Напиши что-нибудь интересное..."
+              placeholder="Напишите что-нибудь..."
               rows="5"
               maxlength="1000"
             ></textarea>
+          </div>
 
-            <div class="progress-bar-container">
-              <div class="progress-bar-fill" id="progressBarFill"></div>
-            </div>
-
-            <div class="char-counter">
-              <span id="charCount">0</span>/1000 симв.
-            </div>
+          <div
+            class="media-controls"
+            style="display: flex; gap: 10px; margin-bottom: 20px"
+          >
+            <input
+              type="file"
+              id="fileInput"
+              accept="image/*"
+              style="display: none"
+            />
+            <button
+              type="button"
+              onclick="document.getElementById('fileInput').click()"
+            >
+              🖼 Фото
+            </button>
+            <button type="button" id="recordBtn" style="background: #ef4444">
+              🎙 Голос
+            </button>
           </div>
 
           <button type="submit" id="submitBtn">
             <span class="btn-text">Отправить</span>
-            <div class="spinner hidden"></div>
           </button>
         </form>
       </div>
@@ -152,14 +117,9 @@
       <div class="modal-content">
         <div class="success-icon">✨</div>
         <h3>Успешно доставлено!</h3>
-        <p id="memeFact">Ваше сообщение отправлено.</p>
-        <div class="meme-container">
-          <img id="memeImage" src="" alt="Мем фидбека" />
-        </div>
-        <button id="closeModalBtn">Вернуться в реальность</button>
+        <button id="closeModalBtn">Вернуться</button>
       </div>
     </div>
-
     <script src="script.js"></script>
   </body>
 </html>
